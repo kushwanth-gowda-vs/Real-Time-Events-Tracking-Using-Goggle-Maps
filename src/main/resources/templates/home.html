@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            height: 50px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            height: 5%;
+            bottom: 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #3498db;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: purple;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        #map-container {
+            height: 400px;
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .emojis {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🌎 Travel Enhancements 🚀</h2>
+</header>
+
+<nav>
+    <a href="/home">Home</a>
+    <a href="/aboutus">About Us</a>
+    <a href="/contactus">Contact</a>
+    <a href="/updateinfo">Update Information</a>
+    <a href="/">Logout</a>
+</nav>
+<div class="container fade-in">
+    <div class="content">
+        <h2>Welcome to the Travel Enhancements Project</h2>
+        <ul>
+            <li style="background-color: #ffd700; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); color: #333;">
+                <p style="color: #333; font-weight: bold;">🌟 The Travel Enhancements Project is dedicated to revolutionizing the way people experience travel. 🌟</p>
+                <p style="color: #555; text-shadow: 2px 2px 5px #aaa;">We aim to make journeys not just a means of reaching a destination but an enjoyable and hassle-free adventure. Our innovative solutions provide real-time insights, ensuring that your travel is not only efficient but also delightful.</p>
+            </li>
+            <li style="background-color: #3498db; padding: 10px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); color: #fff;">
+                <p style="color: #fff; font-weight: bold;">⚡ Explore the possibilities of our navigation system that goes beyond conventional routes. ⚡</p>
+                <p style="color: #ccc; text-shadow: 2px 2px 5px #333;">From avoiding rainwater accumulation during rainy days to steering clear of potholes and speed breakers, we're committed to enhancing your travel experience. Join us on this journey as we redefine the way you move from one place to another.</p>
+            </li>
+        </ul>
+
+        <label for="start-input">📍 Starting Point:</label>
+        <input type="text" id="start-input" placeholder="Enter starting point">
+
+        <label for="destination-input">📍 Destination:</label>
+        <input type="text" id="destination-input" placeholder="Enter destination">
+
+        <button onclick="embedGoogleMap()" class="rotate">Show Map 🗺️</button>
+
+        <div id="map-container" class="rotate emojis">🌐</div>
+    </div>
+
+    <div id="warnings-container" style="margin-top: 20px;"></div>
+</div>
+
+<!-- <footer>
+    <p>© 2024 Location Project</p>
+</footer> -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRBhuaOI1aTwVpCUnsq_LxaaU7KQrwOS4&libraries=places"></script>
+<script>
+    function embedGoogleMap() {
+        var startInput = document.getElementById('start-input').value;
+        var destinationInput = document.getElementById('destination-input').value;
+
+        // Clear existing warnings
+        document.getElementById('warnings-container').innerHTML = '';
+
+        if (startInput && destinationInput) {
+            // Define points with warnings
+            var warningPoints = [
+                { keyword: 'Hebbal', message: '(JKVK : 🎉 Festival celebration causing heavy traffic ), Jakkur : 🎸 Live concert event nearby , vinayaka naga : traffic  ' },
+                { keyword: 'Yelahanka', message: '🎸 Live concert event nearby, JKVK, Event: 🎨 Art exhibition happening' },
+                { keyword: 'Indiranagar', message: '🏃 Marathon event in this area' },
+        
+                { keyword: 'MG Road', message: '🎨 Art exhibition happening' },
+                { keyword: 'Koramangala', message: '🎭 Theater performance tonight' },
+                { keyword: 'Whitefield', message: '🍔 Food festival this weekend' },
+                { keyword: 'Marathahalli', message: ' 🎤 Open mic night event' },
+                { keyword: 'Electronic City', message: '💼 Business conference in progress' },
+                { keyword: 'Bannerghatta', message: '🎪 Circus show in the area' },
+                { keyword: 'HSR Layout', message: '🛍️ Street market event' },
+                { keyword: 'Jayanagar', message: '🎬 Outdoor movie screening' },
+                { keyword: 'JP Nagar', message: '🎺 Music festival this week' },
+                { keyword: 'BTM Layout', message: '🎁 Charity run event' },
+                { keyword: 'Kalyan Nagar', message: '🎁 Kalyan Nagar event message' }
+            ];
+
+            // Initialize the Google Map
+            var map = new google.maps.Map(document.getElementById('map-container'), {
+                zoom: 10,
+                center: { lat: 12.9716, lng: 77.5946 } // Center map to Bangalore
+            });
+
+            // Create a directions service and display object
+            var directionsService = new google.maps.DirectionsService();
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
+
+            // Set the route on the map
+            directionsService.route({
+                origin: startInput,
+                destination: destinationInput,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                    var warningsContainer = document.getElementById('warnings-container');
+                    var route = response.routes[0];
+                    var accumulatedWarnings = new Set(); // Use a Set to store unique warnings
+
+                    // Function to add warning to accumulatedWarnings set
+                    function addWarning(keyword, message) {
+                        accumulatedWarnings.add(`${keyword}: ${message}`);
+                    }
+
+                    route.legs.forEach(leg => {
+                        leg.steps.forEach(step => {
+                            warningPoints.forEach(point => {
+                                if (step.instructions.toLowerCase().includes(point.keyword.toLowerCase())) {
+                                    addWarning('Along the route - ' + point.keyword, point.message);
+                                }
+                            });
+                        });
+                    });
+
+
+                  
+                    if (accumulatedWarnings.size > 0) {
+                        warningsContainer.innerHTML = '<strong>EVENTS:</strong><br>';
+                        accumulatedWarnings.forEach(message => {
+                            warningsContainer.innerHTML += `<p>${message}</p>`;
+                        });
+                    } else {
+                        warningsContainer.innerHTML = '<p>No event found along this route.</p>';
+                    }
+                } else {
+                    alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

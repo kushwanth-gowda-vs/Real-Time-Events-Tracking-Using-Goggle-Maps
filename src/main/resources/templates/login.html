@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Login Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(to right, #ff75a0, #ffa0b0);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header, footer {
+            background: linear-gradient(to right, #4f80e1, #6591e8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            background: linear-gradient(to right, #ffffff, #f0f0f0);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.5s;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        input {
+            padding: 12px;
+            margin-bottom: 16px;
+            width: 80%;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.5s;
+        }
+
+        input:focus {
+            border-color: #2980b9;
+        }
+
+        button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 80%;
+            transition: background 0.3s;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #2980b9, #2471a3);
+        }
+
+        .register-link {
+            margin-top: 16px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+
+        .register-link a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> Login Page 🎓</h1>
+    </header>
+
+    <div class="container">
+        <h2>Login Form</h2>
+        <form action="/login" method="post">
+            <label for="username">👤 Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">🔐 Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login 🚀</button>
+        </form>
+
+        <div class="register-link">
+            <p>Not registered yet? <a href="/register">Register here 🌟</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Beautiful Login Page</p>
+    </footer>
+</body>
+</html>
